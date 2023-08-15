@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// Route pour tester mon api
+Route::get('/test', function(){
+    return response()->json(
+       [ 
+        'status' => 'done',
+        'message' => 'Votre api fonctionne'
+        ]
+    );
 });
+
+//Route pour la connexion de l'admin
+Route::post('/login', [AuthController::class,'login']);

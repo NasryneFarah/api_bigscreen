@@ -13,6 +13,6 @@ class Types extends Model
     //Il s'agit d'une relation One to many 
     public function questions()
     {
-        return $this->hasMany(Questions::class);
+        return $this->hasMany(Questions::class, 'type_id');
     } //Chaque type de question peut avoir plusieurs questions associées
 }

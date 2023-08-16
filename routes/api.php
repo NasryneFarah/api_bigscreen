@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,6 @@ Route::get('/test', function(){
 
 //Route pour la connexion de l'admin
 Route::post('/login', [AuthController::class,'login']);
+
+//Route poour retourner toutes les questions
+Route::get('/listes_questions', [QuestionController::class,'index']);

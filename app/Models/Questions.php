@@ -9,11 +9,17 @@ class Questions extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'body_question',
+        'type_id',
+    ];
+
     //Relations entre les questions et les types de question
     //Il s'agit d'une relation One to many 
     public function questionType()
     {
-        return $this->belongsTo(Types::class);
+        return $this->belongsTo(Types::class, 'type_id');
     } // chaque questions appartient à un seul type de question
 
     //Relations entre les questions et les réponses

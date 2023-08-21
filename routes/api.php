@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -35,3 +36,6 @@ Route::post('/login', [AuthController::class,'login']);
 
 //Route poour retourner toutes les questions
 Route::get('/listes_questions', [QuestionController::class,'index']);
+
+//Route pour retourner la liste des réponses
+Route::get('/listes_responses', [AnswerController::class, 'index']);

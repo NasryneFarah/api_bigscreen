@@ -27,4 +27,11 @@ class Questions extends Model
     {
         return $this->hasOne(Answers::class); //chaque questions peut avoir une seule réponse
     }
+
+    //relation entre question et proposition
+    //il s'agit d'une relation one to many
+    public function proposal()
+    {
+        return $this->hasMany(Choices::class, 'choice_question_id'); //Une question appartient à plusieurs propositions
+    }
 }

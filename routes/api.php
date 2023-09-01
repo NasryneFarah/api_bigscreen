@@ -39,3 +39,6 @@ Route::get('/listes_questions', [QuestionController::class,'index']);
 
 //Route pour retourner la liste des réponses
 Route::get('/listes_responses', [AnswerController::class, 'index']);
+
+//Route pour stocker les réponses d'un utilisateur dans la base de donnée
+Route::post('response', [AnswerController::class,'store']);

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AnswersResource;
 use Exception;
 use App\Models\Answers;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\AnswersResource;
 
 class AnswerController extends Controller
 {
@@ -28,20 +29,45 @@ class AnswerController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+  
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        //je m'assure avec cette variable que mes champs sont valides
+    $request->validate([
+        'email' =>'required|string|email',
+    ]);
+
+     // Vérifier si l'email existe déjà dans la base de données
+     $existingUser = Answers::where('user_email', $request->email)->first();
+
+    //Ici je vérifie si le champ renseigné est correct
+    if ($request->fails()) {
+        return response()->json([
+            'error' => 'Erreur lors de la sauvegarde des messages'
+        ], 400);
+
+    }elseif ($existingUser) {
+        return response()->json([
+            'error' => 'Cet email existe déjà'
+        ], 400);
+        
+    }else{
+
+        //Creation d'une nouvelle instance de mon modèle réponse
+        $response = new Answers();
+        //Les valeurs pour les champs user_email et user_answers sont extraites de la requête et assignées à l'instance du modèle Response.
+        $response->user_email = $request->user_email;
+        $response->user_answers = $request->user_answers;
+        $response->save();
+
+        return response()->json([
+            'message' => 'Message sauvegardé avec succès'
+        ], 201);
+
+    }
     }
 
     /**

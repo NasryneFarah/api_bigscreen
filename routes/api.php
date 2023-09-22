@@ -22,7 +22,7 @@ use App\Http\Controllers\QuestionController;
 // });
 
 // Route pour tester mon api
-Route::get('/test', function(){
+Route::get('/test', function() {
     return response()->json(
        [ 
         'status' => 'done',
@@ -41,4 +41,4 @@ Route::get('/listes_questions', [QuestionController::class,'index']);
 Route::get('/listes_responses', [AnswerController::class, 'index']);
 
 //Route pour stocker les réponses d'un utilisateur dans la base de donnée
-Route::post('response', [AnswerController::class,'store']);
+Route::post('/response', [AnswerController::class,'store']);

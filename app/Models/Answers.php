@@ -24,6 +24,6 @@ class Answers extends Model
 
     //Relations entre les réponses et un uuid
     public function uuidUser(){
-        return $this->belongsTo(Uuid::class);//chaque réponse d'utilisateur correspond à un uuid
+        return $this->belongsTo(Uuids::class);//chaque réponse d'utilisateur correspond à un uuid
     }
 }

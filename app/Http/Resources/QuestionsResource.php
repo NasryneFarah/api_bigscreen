@@ -16,12 +16,14 @@ class QuestionsResource extends JsonResource
     {
         // return parent::toArray($request);
 
+        //PairsResource me permet d'apporter tous les éléments qui doivent appraraître dans ma réponse json  
+        //les resources en Laravel nous permettent de formater notre table et d'envoyer des éléments en plus de ceux présents dans notre table
         return [
             'id'=>$this->id,
             'title'=>$this->title,
             'body_question'=>$this->body_questions,
             'type'=>$this->questionType->type,//ici je passe par questionType(repésente ma clé étrangère type_id) pour regarder dans la table des types à quoi correspond le type des questions
-        ];   //PairsResource me permet d'apporter tous les éléments qui doivent appraraître dans ma réponse json  
-        //les resources en Laravel nous permettent de formater notre table et d'envoyer des éléments en plus de ceux présents dans notre table
+            'proposition'=>$this->proposal->pluck('content'),//je cherche à récupérer les différents propositions de questions stocker dans ma table choice
+        ];   
     }
 }

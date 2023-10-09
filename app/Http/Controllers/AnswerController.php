@@ -7,6 +7,7 @@ use App\Models\Uuids;
 use Ramsey\Uuid\Uuid;
 use App\Models\Answers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AnswersResource;
 use Illuminate\Support\Facades\Validator;
@@ -40,7 +41,7 @@ class AnswerController extends Controller
     {
         //je m'assure avec cette variable que mes champs sont valides
         $validator = Validator::make($request->all(), [
-            'user_email' =>'required|string|email',
+            'user_email' =>'required|email',
             'user_answers' =>'required',
             'question_id' =>'required',
         ]);
@@ -49,7 +50,7 @@ class AnswerController extends Controller
      $existingUser = Answers::where('user_email', $request->email)->first();
 
      // Génération d'un uuid pour chaque utilisateur
-    $uuid = Uuid::uuid4()->toString();//les uuid de type 4 me permettront d'éviter que deux users est un même uuid et tostring me permet de tranformer le uuid en chaîne de caractère
+    $uuid = Uuid::uuid4()->toString();//les uuid de type 4 me permettront d'éviter que deux users est un même uuid et tostring me permet de transformer le uuid en chaîne de caractère
 
     // Ici je vérifie si le champ renseigné est correct
     if ($validator->fails()) {
@@ -78,10 +79,9 @@ class AnswerController extends Controller
         return response()->json([
             'message' => 'réponses sauvegardée avec succès',
             'uuid' => $uuid,
-        ], 201);
-
+        ], 201); 
     }
-    }
+}
 
     /**
      * Display the specified resource.

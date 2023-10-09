@@ -19,9 +19,10 @@ return new class extends Migration
 
              //clé étrangère
         $table->foreignId('question_id')->references('id')->on('questions')->onDelete('cascade')->onUpdate('cascade');
+          //clé étrangère 
+          $table->foreignId('uuid')->references('id')->on('uuids')->onDelete('cascade')->onUpdate('cascade');
         });
 
-       
     }
 
     /**

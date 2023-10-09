@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('uuid')->unique();
             $table->timestamps();
-
-            //clé étrangère 
-            $table->foreignId('uuid_answers')->references('id')->on('answers')->onDelete('cascade')->onUpdate('cascade');
         });
         
     }

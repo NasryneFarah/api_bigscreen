@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->string('user_email', 255);
             $table->string('user_answers', 255);
             $table->timestamps();
 
              //clé étrangère
         $table->foreignId('question_id')->references('id')->on('questions')->onDelete('cascade')->onUpdate('cascade');
-          //clé étrangère 
-          $table->foreignId('uuid')->references('id')->on('uuids')->onDelete('cascade')->onUpdate('cascade');
-        });
 
+        $table->foreignId('uuid_id')->references('id')->on('uuids')->onDelete('cascade')->onUpdate('cascade');
+        }
+    );
     }
+
 
     /**
      * Reverse the migrations.

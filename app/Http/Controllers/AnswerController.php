@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AnswersResource;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
 class AnswerController extends Controller
@@ -38,50 +39,45 @@ class AnswerController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //je m'assure avec cette variable que mes champs sont valides
-        $validator = Validator::make($request->all(), [
-            'user_email' =>'required|email',
-            'user_answers' =>'required',
-            'question_id' =>'required',
-        ]);
- 
-     // Vérifier si l'email existe déjà dans la base de données
-     $existingUser = Answers::where('user_email', $request->email)->first();
+{
+    // Assurez-vous que vos champs sont valides avec le Validator
+    $validator = Validator::make($request->all(), [
+        'user_answers' => 'required',
+        'question_id' => 'required',
+    ]);
 
-     // Génération d'un uuid pour chaque utilisateur
-    $uuid = Uuid::uuid4()->toString();//les uuid de type 4 me permettront d'éviter que deux users est un même uuid et tostring me permet de transformer le uuid en chaîne de caractère
-
-    // Ici je vérifie si le champ renseigné est correct
-    if ($validator->fails()) {
-        return response()->json([
-            'error' => 'Erreur lors de la sauvegarde des messages'
-        ], 400);
-
-    }elseif ($existingUser) {
-        return response()->json([
-            'error' => 'Cet email existe déjà'
-        ], 400);
-        
-    }else{
-
-        //Creation d'une nouvelle instance de mon modèle réponse
+    // Créez une nouvelle instance de votre modèle réponse
+    $uuid = new Uuids();
+    $uuid->uuid = Uuid::uuid4()->toString();
+    $uuid->save();
+    
+    $responses = [];
+    $userResponses = $request->only('userResponses')['userResponses'];
+    // dd($userResponses['userResponses']);
+    foreach ($userResponses as $resp) {
         $response = new Answers();
-        $uuidUser = new Uuids();
-        //Les valeurs pour les champs user_email et user_answers sont extraites de la requête et assignées à l'instance du modèle Response.
-        $response->user_email = $request->user_email; 
-        $response->user_answers = $request->user_answers;
-        $response->question_id = $request->question_id;
-        $uuidUser->uuid=$uuid;
-        $response->save();
-        $uuidUser->save();
-
-        return response()->json([
-            'message' => 'réponses sauvegardée avec succès',
-            'uuid' => $uuid,
-        ], 201); 
+        // dd($resp[0]);
+        $response->user_answers = $resp[0]['user_answers'];
+        $response->question_id = $resp[0]['question_id'];
+        $responses[] = $response;
+        // dump($response);
     }
+    // foreach($i = 0; $i <20; $i++){
+    //     $response = new Answers();
+    //     $response->user_answers = $request->userResponses[$i];
+    //     $response->question_id = $request->userResponses[$i];
+    //     $responses[] = $response;
+    // }
+    $uuid->uuidAnswers()->saveMany($responses);
+
+    return response()->json([
+        'message' => 'Réponses sauvegardées avec succès',
+        'uuid' => $uuid,
+    ], 200);
 }
+
+
+
 
     /**
      * Display the specified resource.

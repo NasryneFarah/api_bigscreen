@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('uuids', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid')->unique();
+            $table->string('uuid', 36);
             $table->timestamps();
         });
         

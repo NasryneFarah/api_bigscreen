@@ -71,6 +71,7 @@ class AnswerController extends Controller
     $uuid->uuidAnswers()->saveMany($responses);
 
     return response()->json([
+        'status' => 200,
         'message' => 'Réponses sauvegardées avec succès',
         'uuid' => $uuid,
     ], 200);

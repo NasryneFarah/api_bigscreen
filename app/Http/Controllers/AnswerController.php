@@ -53,6 +53,7 @@ class AnswerController extends Controller
     
     $responses = [];
     $userResponses = $request->only('userResponses')['userResponses'];
+    // dd($userResponses[0][0]);
     // dd($userResponses['userResponses']);
     foreach ($userResponses as $resp) {
         $response = new Answers();

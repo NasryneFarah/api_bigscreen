@@ -62,13 +62,7 @@ class AnswerController extends Controller
         $response->question_id = $resp[0]['question_id'];
         $responses[] = $response;
         // dump($response);
-    }
-    // foreach($i = 0; $i <20; $i++){
-    //     $response = new Answers();
-    //     $response->user_answers = $request->userResponses[$i];
-    //     $response->question_id = $request->userResponses[$i];
-    //     $responses[] = $response;
-    // }
+    } 
     $uuid->uuidAnswers()->saveMany($responses);
 
     return response()->json([
@@ -78,16 +72,28 @@ class AnswerController extends Controller
     ], 200);
 }
 
-
-
-
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($uuid) // show me permettra de récupérer les réponses de l'utilisateur en fonction de l'UUID fourni dans l'URL
     {
-        //
+        //recherche de l'UUID dans la table uuids
+        $uuidModel = Uuids::where('uuid', $uuid)->first();
+        
+        if ($uuidModel) {
+            // Si l'UUID est trouvé, récupérez les réponses correspondantes dans la table answers
+            $responses = Answers::where('uuid_id', $uuidModel->id)->get();
+            return response()->json($responses);
+        } else {
+            // Si aucun UUID correspondant n'est trouvé, renvoyez une réponse appropriée
+            return response()->json(['message' => 'UUID non trouvé'], 404);
+        }
     }
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.

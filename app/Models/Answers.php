@@ -20,7 +20,7 @@ class Answers extends Model
     //Relations entre les réponses et les questions
     public function questions()
     {
-        return $this->belongsTo(Question::class); // Chaque réponses appartient à une question
+        return $this->belongsTo(Questions::class, 'question_id'); // Chaque réponses appartient à une question
     }
 
     // //Relations entre les réponses et un uuid

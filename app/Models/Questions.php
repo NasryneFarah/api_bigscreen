@@ -11,7 +11,7 @@ class Questions extends Model
 
     protected $fillable = [
         'title',
-        'body_question',
+        'body_questions',
         'type_id',
     ];
 
@@ -25,7 +25,7 @@ class Questions extends Model
     //Relations entre les questions et les réponses
     public function responses()
     {
-        return $this->hasOne(Answers::class); //chaque questions peut avoir une seule réponse
+        return $this->hasMany(Answers::class); //chaque questions peut avoir une seule réponse
     }
 
     //relation entre question et proposition

@@ -77,20 +77,36 @@ class AnswerController extends Controller
      */
     public function show($uuid) // show me permettra de récupérer les réponses de l'utilisateur en fonction de l'UUID fourni dans l'URL
     {
-        //recherche de l'UUID dans la table uuids
-        $uuidModel = Uuids::where('uuid', $uuid)->first();
-        
-        if ($uuidModel) {
-            // Si l'UUID est trouvé, récupérez les réponses correspondantes dans la table answers
-            $responses = Answers::where('uuid_id', $uuidModel->id)->get();
-            return response()->json($responses);
-        } else {
-            // Si aucun UUID correspondant n'est trouvé, renvoyez une réponse appropriée
-            return response()->json(['message' => 'UUID non trouvé'], 404);
-        }
+        // Recherche de l'UUID dans la table uuids
+    $linkResponses = Uuids::where('uuid', $uuid)->first(); // Filtrer par l'UUID fourni
+    if ($linkResponses) {
+        // Si l'UUID est trouvé, récupérez les réponses correspondantes
+        $responses = Answers::where('uuid_id', $linkResponses->id)->get();
+        return response()->json([
+            'message' => 'UUID trouvé', 
+            'id' => $linkResponses->id,
+            'réponses' => $responses
+        ]);
+    } else {
+        // Si l'UUID n'est pas trouvé, renvoyer une réponse appropriée
+        return response()->json(['message' => 'UUID non trouvé'], 404);
     }
-
-
+        // //recherche de l'UUID dans la table uuids
+        // $linkResponses = Uuids::first();
+        
+        // if ($linkResponses) {
+        //     // Si l'UUID est trouvé, récupérez les réponses correspondantes dans la table answers
+        //     $responses = Answers::where('uuid_id', $linkResponses->id)->get();
+        //     return response()->json([
+        //         'message' => 'UUID trouvé',
+        //         'id' => $linkResponses->id,
+        //         'réponses' => $responses
+        //         ]);
+        // } else {
+        //     // Si aucun UUID correspondant n'est trouvé, renvoyez une réponse appropriée
+        //     return response()->json(['message' => 'UUID non trouvé'], 404);
+        // };
+    }
 
 
 

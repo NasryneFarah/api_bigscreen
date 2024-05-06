@@ -43,6 +43,6 @@ Route::get('/listes_responses', [AnswerController::class, 'index']);
 //Route pour stocker les réponses d'un utilisateur dans la base de donnée
 Route::post('/response', [AnswerController::class,'store']);
 
-// Route pour les liens des utilisateurs 
-Route::get('/responses/{uuid}', [AnswerController::class,'show'
-]);
+// Route pour les liens des réponses des utilisateurs 
+// Route::get('/Linkresponse/{uuid}', [AnswerController::class, 'show'])->name('response.show');
+Route::get('/responses/{uuid}', [AnswerController::class,'show']);

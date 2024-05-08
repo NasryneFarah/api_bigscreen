@@ -16,11 +16,10 @@ use Illuminate\Support\Facades\Validator;
 class AnswerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * la fonction me permettra de retourner la liste des réponses
      */
     public function index()
     {
-        //la fonction me permettra de retourner la liste des réponses
         try{
             $answer = Answers::all(); // il récupère toutes les questions
             return response()->json([
@@ -36,7 +35,7 @@ class AnswerController extends Controller
 
   
     /**
-     * Store a newly created resource in storage.
+     * Store me permet de créer un uuid et de le rattacher aux réponses de l'utilisateur lors de la sauvegarde de ses réponses
      */
     public function store(Request $request)
 {
@@ -73,9 +72,9 @@ class AnswerController extends Controller
 }
 
     /**
-     * Display the specified resource.
+     * show me permettra de récupérer les réponses de l'utilisateur en fonction de l'UUID fourni dans l'URL
      */
-    public function show($uuid) // show me permettra de récupérer les réponses de l'utilisateur en fonction de l'UUID fourni dans l'URL
+    public function show($uuid) // 
     {
         // Recherche de l'UUID dans la table uuids
     $linkResponses = Uuids::where('uuid', $uuid)->first(); // Filtrer par l'UUID fourni
@@ -107,6 +106,44 @@ class AnswerController extends Controller
         //     return response()->json(['message' => 'UUID non trouvé'], 404);
         // };
     }
+
+     /**
+     * La fonction me permet de compter les réponses des utilisateurs
+     */
+    public function countResponses()
+    {
+        // je récupère toutes les réponses
+        $responses = Answers::all();
+
+        // je compte les propositions de réponses ou l'id est égal à 6
+        $responseQuestions6 = $responses->where('question_id', 6)->countBy('user_answers');
+
+         // je compte les propositions de réponses ou l'id est égal à 7
+         $responseQuestions7 = $responses->where('question_id', 7)->countBy('user_answers');
+
+          // je compte les propositions de réponses ou l'id est égal à 10
+        $responseQuestions10= $responses->where('question_id', 10)->countBy('user_answers');
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Nombre des propositions des réponses des utilisateurs',
+            'question 6' => $responseQuestions6,
+            'question 7' => $responseQuestions7,
+            'question 10' => $responseQuestions10
+        ]);
+        // // Tableau pour stocker les comptages de réponses pour chaque question
+        // $responseCounts = [
+        //     'question_6' => Answers::where('question_id', 6)->count(),
+        //     'question_7' => Answers::where('question_id', 7)->count(),
+        //     'question_10' => Answers::where('question_id', 10)->count(),
+        // ];
+
+        // return response()->json([
+        //     'status' => 200,
+        //     'responses'=> $responseCounts
+        // ]);
+    }
+
 
 
 

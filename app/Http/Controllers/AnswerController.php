@@ -90,21 +90,6 @@ class AnswerController extends Controller
         // Si l'UUID n'est pas trouvé, renvoyer une réponse appropriée
         return response()->json(['message' => 'UUID non trouvé'], 404);
     }
-        // //recherche de l'UUID dans la table uuids
-        // $linkResponses = Uuids::first();
-        
-        // if ($linkResponses) {
-        //     // Si l'UUID est trouvé, récupérez les réponses correspondantes dans la table answers
-        //     $responses = Answers::where('uuid_id', $linkResponses->id)->get();
-        //     return response()->json([
-        //         'message' => 'UUID trouvé',
-        //         'id' => $linkResponses->id,
-        //         'réponses' => $responses
-        //         ]);
-        // } else {
-        //     // Si aucun UUID correspondant n'est trouvé, renvoyez une réponse appropriée
-        //     return response()->json(['message' => 'UUID non trouvé'], 404);
-        // };
     }
 
      /**
@@ -122,31 +107,41 @@ class AnswerController extends Controller
          $responseQuestions7 = $responses->where('question_id', 7)->countBy('user_answers');
 
           // je compte les propositions de réponses ou l'id est égal à 10
-        $responseQuestions10= $responses->where('question_id', 10)->countBy('user_answers');
+        $responseQuestions8= $responses->where('question_id', 8)->countBy('user_answers');
+        
+        // Tableau des IDs des questions pour lesquelles vous souhaitez calculer les moyennes
+        $idQuestions = [11, 12, 13, 14, 15];
 
+        /** sum est une fonction en laravel qui me permet d'additionner toutes les valeurs de la collection responses */
+         /** count est une méthode en laravel qui me permet de compter le nombre d'éléments dans la collection responses */
+          /** round($sum / $count,2) avec cette méthode je divise la somme totale des réponses par le nombre de totale des réponses pour obtenir la moyenne */
+          /** round me permettra d'arrondir cette moyenne à deux chiffres apès la virgule */
+          /**$count > 0 ? ... : 0 vérifie si le nombre de réponse est supérieur à 0 Si c'est le cas ($count > 0), elle calcule et renvoie la moyenne arrondie. Sinon (: 0), elle renvoie zéro pour éviter une division par zéro. */
+        // Fonction pour calculer la moyenne
+        $calculateAverage = function ($responses) {
+            $sum = $responses->sum();
+            $count = $responses->count();
+            return $count > 0 ? round($sum / $count, 2) : 0; // arrondir à 2 chiffres après la virgule
+        };
+        // Tableau pour stocker les moyennes de chaque question
+        $averages = [];
+        // Calcul des moyennes pour les questions 11 à 15
+        foreach ($idQuestions as $idQuestion) {
+        // Je récupère les réponses pour la question actuelle
+        $responsesQuestion = $responses->where('question_id', $idQuestion)->pluck('user_answers');
+        // Calcul de la moyenne pour la question actuelle
+        $average = $calculateAverage($responsesQuestion);
+        // J'ajoute la moyenne au tableau des moyennes avec la clé correspondant à l'ID de la question
+        $averages["average{$idQuestion}"] = $average; 
+    }
         return response()->json([
             'status' => 200,
-            'message' => 'Nombre des propositions des réponses des utilisateurs',
-            'question 6' => $responseQuestions6,
-            'question 7' => $responseQuestions7,
-            'question 10' => $responseQuestions10
-        ]);
-        // // Tableau pour stocker les comptages de réponses pour chaque question
-        // $responseCounts = [
-        //     'question_6' => Answers::where('question_id', 6)->count(),
-        //     'question_7' => Answers::where('question_id', 7)->count(),
-        //     'question_10' => Answers::where('question_id', 10)->count(),
-        // ];
-
-        // return response()->json([
-        //     'status' => 200,
-        //     'responses'=> $responseCounts
-        // ]);
-    }
-
-
-
-
+            'message' => 'Données statistiques des réponses des utilisateurs',
+            'question6' => $responseQuestions6,
+            'question7' => $responseQuestions7,
+            'question8' => $responseQuestions8,
+            'averages' => $averages // Tableau des moyennes pour chaque question
+        ]);}
 
     /**
      * Show the form for editing the specified resource.

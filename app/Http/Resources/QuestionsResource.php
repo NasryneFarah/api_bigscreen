@@ -21,7 +21,7 @@ class QuestionsResource extends JsonResource
         return [
             'id'=>$this->id,
             'title'=>$this->title,
-            'body_question'=>$this->body_questions,
+            'question_value'=>$this->value,
             'type'=>$this->questionType->type,//ici je passe par questionType(repésente ma clé étrangère type_id) pour regarder dans la table des types à quoi correspond le type des questions
             'proposition'=>$this->proposal->pluck('content'),//je cherche à récupérer les différents propositions de questions stocker dans ma table choice
         ];   

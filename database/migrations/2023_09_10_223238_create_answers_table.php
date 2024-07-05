@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->string('user_answers', 255);
+            $table->string('value', 255);
             $table->timestamps();
 
              //clé étrangère

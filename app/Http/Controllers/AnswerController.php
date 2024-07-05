@@ -18,9 +18,26 @@ class AnswerController extends Controller
     /**
      * la fonction me permettra de retourner la liste des réponses
      */
-    public function index()
+    public function index(Request $request)
     {
         try{
+    //         // Nombre de réponses par page
+    //     $perPage = 20;
+    //     // Récupérer les réponses avec pagination
+    //    $answer = Answers::paginate($perPage); // Récupérer les réponses avec pagination
+    //    return response()->json([
+    //     'status' => 200,
+    //     'message' => 'Toutes les réponses ont été récupérées avec succès',
+    //     'data' => AnswersResource::collection($answer),
+    //     'pagination' => [
+    //         'total' => $answer->total(),
+    //         'per_page' => $answer->perPage(),
+    //         'current_page' => $answer->currentPage(),
+    //         'last_page' => $answer->lastPage(),
+    //         'next_page_url' => $answer->nextPageUrl(),
+    //         'prev_page_url' => $answer->previousPageUrl(),
+    //     ]
+    //     ]);
             $answer = Answers::all(); // il récupère toutes les questions
             return response()->json([
             'status' => 200,
@@ -31,7 +48,7 @@ class AnswerController extends Controller
         catch(Exception $e){
             return response()->json($e);
         }
-    }
+    }   
 
   
     /**
@@ -41,7 +58,7 @@ class AnswerController extends Controller
 {
     // Assurez-vous que vos champs sont valides avec le Validator
     $validator = Validator::make($request->all(), [
-        'user_answers' => 'required',
+        'value' => 'required',
         'question_id' => 'required',
     ]);
 
@@ -57,7 +74,7 @@ class AnswerController extends Controller
     foreach ($userResponses as $resp) {
         $response = new Answers();
         // dd($resp[0]);
-        $response->user_answers = $resp[0]['user_answers'];
+        $response->value = $resp[0]['value'];
         $response->question_id = $resp[0]['question_id'];
         $responses[] = $response;
         // dump($response);
@@ -67,7 +84,7 @@ class AnswerController extends Controller
     return response()->json([
         'status' => 200,
         'message' => 'Réponses sauvegardées avec succès',
-        'uuid' => $uuid,
+        'data' => $uuid,
     ], 200);
 }
 
@@ -82,9 +99,9 @@ class AnswerController extends Controller
         // Si l'UUID est trouvé, récupérez les réponses correspondantes
         $responses = Answers::where('uuid_id', $linkResponses->id)->get();
         return response()->json([
-            'message' => 'UUID trouvé', 
-            'id' => $linkResponses->id,
-            'réponses' => $responses
+            'status' => 200,
+            'message' => 'Toutes les réponses récupérées avec succès',
+            'data' => $responses
         ]);
     } else {
         // Si l'UUID n'est pas trouvé, renvoyer une réponse appropriée
@@ -101,13 +118,13 @@ class AnswerController extends Controller
         $responses = Answers::all();
 
         // je compte les propositions de réponses ou l'id est égal à 6
-        $responseQuestions6 = $responses->where('question_id', 6)->countBy('user_answers');
+        $responseQuestions6 = $responses->where('question_id', 6)->countBy('value');
 
          // je compte les propositions de réponses ou l'id est égal à 7
-         $responseQuestions7 = $responses->where('question_id', 7)->countBy('user_answers');
+         $responseQuestions7 = $responses->where('question_id', 7)->countBy('value');
 
           // je compte les propositions de réponses ou l'id est égal à 10
-        $responseQuestions8= $responses->where('question_id', 8)->countBy('user_answers');
+        $responseQuestions8= $responses->where('question_id', 8)->countBy('value');
         
         // Tableau des IDs des questions pour lesquelles vous souhaitez calculer les moyennes
         $idQuestions = [11, 12, 13, 14, 15];
@@ -128,7 +145,7 @@ class AnswerController extends Controller
         // Calcul des moyennes pour les questions 11 à 15
         foreach ($idQuestions as $idQuestion) {
         // Je récupère les réponses pour la question actuelle
-        $responsesQuestion = $responses->where('question_id', $idQuestion)->pluck('user_answers');
+        $responsesQuestion = $responses->where('question_id', $idQuestion)->pluck('value');
         // Calcul de la moyenne pour la question actuelle
         $average = $calculateAverage($responsesQuestion);
         // J'ajoute la moyenne au tableau des moyennes avec la clé correspondant à l'ID de la question

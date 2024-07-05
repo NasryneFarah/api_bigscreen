@@ -11,7 +11,7 @@ class Questions extends Model
 
     protected $fillable = [
         'title',
-        'body_questions',
+        'value',
         'type_id',
     ];
 

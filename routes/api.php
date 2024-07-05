@@ -44,7 +44,6 @@ Route::get('/listes_responses', [AnswerController::class, 'index']);
 Route::post('/response', [AnswerController::class,'store']);
 
 // Route pour les liens des réponses des utilisateurs 
-// Route::get('/Linkresponse/{uuid}', [AnswerController::class, 'show'])->name('response.show');
 Route::get('/responses/{uuid}', [AnswerController::class,'show']);
 
 //Route pour compter les réponses des utilisateurs

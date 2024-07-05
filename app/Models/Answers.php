@@ -11,10 +11,10 @@ class Answers extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_answers',
+        'value',
         'question_id',
         'uuid_id', // Ajout de la colonne uuid ici
-        'body_question',
+        'question_value',
     ];
 
     //Relations entre les réponses et les questions

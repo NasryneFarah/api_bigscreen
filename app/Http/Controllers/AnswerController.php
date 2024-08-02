@@ -21,23 +21,6 @@ class AnswerController extends Controller
     public function index(Request $request)
     {
         try{
-    //         // Nombre de réponses par page
-    //     $perPage = 20;
-    //     // Récupérer les réponses avec pagination
-    //    $answer = Answers::paginate($perPage); // Récupérer les réponses avec pagination
-    //    return response()->json([
-    //     'status' => 200,
-    //     'message' => 'Toutes les réponses ont été récupérées avec succès',
-    //     'data' => AnswersResource::collection($answer),
-    //     'pagination' => [
-    //         'total' => $answer->total(),
-    //         'per_page' => $answer->perPage(),
-    //         'current_page' => $answer->currentPage(),
-    //         'last_page' => $answer->lastPage(),
-    //         'next_page_url' => $answer->nextPageUrl(),
-    //         'prev_page_url' => $answer->previousPageUrl(),
-    //     ]
-    //     ]);
             $answer = Answers::all(); // il récupère toutes les questions
             return response()->json([
             'status' => 200,

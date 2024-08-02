@@ -34,6 +34,9 @@ Route::get('/test', function() {
 //Route pour la connexion de l'admin
 Route::post('/login', [AuthController::class,'login']);
 
+//Route pour la déconnexion de l'admin
+Route::post('/logout', [AuthController::class,'logout']);
+
 //Route poour retourner toutes les questions
 Route::get('/listes_questions', [QuestionController::class,'index']);
 

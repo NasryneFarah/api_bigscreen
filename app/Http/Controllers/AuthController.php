@@ -29,7 +29,8 @@ class AuthController extends Controller
         return response()->json(
             [
                 'User' => $user,
-                'status' => 'Utilisateur connecté',
+                'status' => 200,
+                'message' => 'Utilisateur connecté',
             ], 200);
       } else {
        //si l'authentifiaction a échoué 
@@ -45,11 +46,11 @@ class AuthController extends Controller
    //la fonction qui va gérer la déconnexion de l'administrateur 
    public function logout()
     {
-        Auth::logout();
+         Auth::logout();
         return response()->json([
-            'status' => 'success',
+            'status' => 200,
             'message' => 'Utilisateur déconnecté'
         ]);
     }
-
-    }
+}
+      

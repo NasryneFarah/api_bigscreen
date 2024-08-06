@@ -107,7 +107,7 @@ class AnswerController extends Controller
          $responseQuestions7 = $responses->where('question_id', 7)->countBy('value');
 
           // je compte les propositions de réponses ou l'id est égal à 10
-        $responseQuestions8= $responses->where('question_id', 8)->countBy('value');
+        $responseQuestions10= $responses->where('question_id', 10)->countBy('value');
         
         // Tableau des IDs des questions pour lesquelles vous souhaitez calculer les moyennes
         $idQuestions = [11, 12, 13, 14, 15];
@@ -139,7 +139,7 @@ class AnswerController extends Controller
             'message' => 'Données statistiques des réponses des utilisateurs',
             'question6' => $responseQuestions6,
             'question7' => $responseQuestions7,
-            'question8' => $responseQuestions8,
+            'question10' => $responseQuestions10,
             'averages' => $averages // Tableau des moyennes pour chaque question
         ]);}
 

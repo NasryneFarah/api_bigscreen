@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\AnswerController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\QuestionController;
 
 /*
@@ -29,6 +30,17 @@ Route::get('/test', function() {
         'message' => 'Votre api fonctionne'
         ]
     );
+});
+
+//Cette route me permettra de vérifier si l'utilisateur est authentifié ou pas 
+Route::get('/check-auth', function () {
+    return response()->json(['authenticated' => Auth::check()]);
+});
+
+//Route pour protéger mon administration
+Route::middleware('auth')->get('/administration', function () {
+    // Logique pour l'administration ici
+    return view('administration');
 });
 
 //Route pour la connexion de l'admin

@@ -26,9 +26,13 @@ class AuthController extends Controller
 
         $user = Auth::user();  //la variabe user représente l'utilisateur pour lequel je dois générer un jeton 
 
+        // Vérifiez si l'utilisateur est un administrateur
+        $isAdmin = $user->role_id === 1; 
+
         return response()->json(
             [
                 'User' => $user,
+                'isAdmin' => $isAdmin,
                 'status' => 200,
                 'message' => 'Utilisateur connecté',
             ], 200);

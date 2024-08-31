@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\Validator;
 class AnswerController extends Controller
 {
     /**
-     * la fonction me permettra de retourner la liste des réponses
+     *la fonction me permettra de retourner la liste des réponses
+     *Les ressources dans Laravel sont utilisées pour transformer les modèles de données en un format JSON spécifique lorsqu'ils sont renvoyés par une API. Elles permettent de contrôler précisément la structure et le contenu des réponses JSON.
      */
-    public function index(Request $request)
+    public function index()
     {
         try{
             $answer = Answers::all(); // il récupère toutes les questions
@@ -52,15 +53,11 @@ class AnswerController extends Controller
     
     $responses = [];
     $userResponses = $request->only('userResponses')['userResponses'];
-    // dd($userResponses[0][0]);
-    // dd($userResponses['userResponses']);
     foreach ($userResponses as $resp) {
         $response = new Answers();
-        // dd($resp[0]);
         $response->value = $resp[0]['value'];
         $response->question_id = $resp[0]['question_id'];
         $responses[] = $response;
-        // dump($response);
     } 
     $uuid->uuidAnswers()->saveMany($responses);
 
@@ -74,7 +71,7 @@ class AnswerController extends Controller
     /**
      * show me permettra de récupérer les réponses de l'utilisateur en fonction de l'UUID fourni dans l'URL
      */
-    public function show($uuid) // 
+    public function show($uuid) 
     {
         // Recherche de l'UUID dans la table uuids
     $linkResponses = Uuids::where('uuid', $uuid)->first(); // Filtrer par l'UUID fourni
@@ -112,11 +109,6 @@ class AnswerController extends Controller
         // Tableau des IDs des questions pour lesquelles vous souhaitez calculer les moyennes
         $idQuestions = [11, 12, 13, 14, 15];
 
-        /** sum est une fonction en laravel qui me permet d'additionner toutes les valeurs de la collection responses */
-         /** count est une méthode en laravel qui me permet de compter le nombre d'éléments dans la collection responses */
-          /** round($sum / $count,2) avec cette méthode je divise la somme totale des réponses par le nombre de totale des réponses pour obtenir la moyenne */
-          /** round me permettra d'arrondir cette moyenne à deux chiffres apès la virgule */
-          /**$count > 0 ? ... : 0 vérifie si le nombre de réponse est supérieur à 0 Si c'est le cas ($count > 0), elle calcule et renvoie la moyenne arrondie. Sinon (: 0), elle renvoie zéro pour éviter une division par zéro. */
         // Fonction pour calculer la moyenne
         $calculateAverage = function ($responses) {
             $sum = $responses->sum();
@@ -142,28 +134,4 @@ class AnswerController extends Controller
             'question10' => $responseQuestions10,
             'averages' => $averages // Tableau des moyennes pour chaque question
         ]);}
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

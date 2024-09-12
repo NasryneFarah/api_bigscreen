@@ -17,7 +17,7 @@ class AuthController extends Controller
         'password' => 'required|string',
     ]);
 
-     // ma variable  va récupérer que les infos de ces deux champs dans le formulaire
+     // ma variable va récupérer les infos de ces deux champs dans le formulaire
      $credentials = $request->only('email','password');
 
       // La méthode attempt sera utiliser pour gérer les tentatives d'authentification à partir du formulaire de connexion

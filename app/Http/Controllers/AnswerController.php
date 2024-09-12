@@ -25,7 +25,7 @@ class AnswerController extends Controller
             $answer = Answers::all(); // il récupère toutes les questions
             return response()->json([
             'status' => 200,
-            "message" => "Toutes les réponses ont été récupérées avec succès",
+            "message" => "Toutes les réponses ont ete recuperees avec succes",
             "data" =>AnswersResource::collection($answer)
             ]);
         }
@@ -63,7 +63,7 @@ class AnswerController extends Controller
 
     return response()->json([
         'status' => 200,
-        'message' => 'Réponses sauvegardées avec succès',
+        'message' => 'Reponses sauvegardees avec succes',
         'data' => $uuid,
     ], 200);
 }
@@ -80,7 +80,7 @@ class AnswerController extends Controller
         $responses = Answers::where('uuid_id', $linkResponses->id)->get();
         return response()->json([
             'status' => 200,
-            'message' => 'Toutes les réponses récupérées avec succès',
+            'message' => 'Toutes les reponses recuperees avec succes',
             'data' => $responses
         ]);
     } else {
@@ -128,7 +128,7 @@ class AnswerController extends Controller
     }
         return response()->json([
             'status' => 200,
-            'message' => 'Données statistiques des réponses des utilisateurs',
+            'message' => 'Donnees statistiques des reponses des utilisateurs',
             'question6' => $responseQuestions6,
             'question7' => $responseQuestions7,
             'question10' => $responseQuestions10,

@@ -32,17 +32,6 @@ Route::get('/test', function() {
     );
 });
 
-//Cette route me permettra de vérifier si l'utilisateur est authentifié ou pas 
-Route::get('/check-auth', function () {
-    return response()->json(['authenticated' => Auth::check()]);
-});
-
-//Route pour protéger mon administration
-Route::middleware('auth')->get('/administration', function () {
-    // Logique pour l'administration ici
-    return view('administration');
-});
-
 //Route pour la connexion de l'admin
 Route::post('/login', [AuthController::class,'login']);
 
